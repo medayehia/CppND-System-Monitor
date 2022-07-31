@@ -15,10 +15,10 @@ using std::vector;
 int Process::Pid() const { return p_; }
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() const {
+float Process::CpuUtilization() const
+{
   float cpu_usage = 0.0;
   auto cpuPro = LinuxParser::CpuUtilization(Process::Pid());
-  std::vector<int> cpuArr;
 
   auto totaltime_ = stoi(cpuPro[13]) + stoi(cpuPro[14]);
   auto seconds_ =
@@ -28,20 +28,15 @@ float Process::CpuUtilization() const {
   return cpu_usage;
 }
 
-// TODO: Return the command that generated this process
 string Process::Command() { return LinuxParser::Command(Process::Pid()); }
 
-// TODO: Return this process's memory utilization
 string Process::Ram() { return LinuxParser::Ram(Process::Pid()); }
 
-// TODO: Return the user (name) that generated this process
 string Process::User() { return LinuxParser::User(Process::Pid()); }
 
-// TODO: Return the age of this process (in seconds)
 long int Process::UpTime() { return LinuxParser::UpTime(Process::Pid()); }
 
-// TODO: Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a) const {
+bool Process::operator<(Process const &a) const
+{
   return this->Process::CpuUtilization() > a.Process::CpuUtilization();
 }
