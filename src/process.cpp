@@ -23,7 +23,7 @@ float Process::CpuUtilization() const
   auto totaltime_ = stoi(cpuPro[13]) + stoi(cpuPro[14]);
   auto seconds_ =
       LinuxParser::UpTime() - (stoi(cpuPro[21]) / sysconf(_SC_CLK_TCK));
-  cpu_usage = 100 * ((totaltime_ / sysconf(_SC_CLK_TCK)) / seconds_);
+  cpu_usage = ((totaltime_ / sysconf(_SC_CLK_TCK)) / seconds_);
 
   return cpu_usage;
 }
@@ -34,7 +34,7 @@ string Process::Ram() { return LinuxParser::Ram(Process::Pid()); }
 
 string Process::User() { return LinuxParser::User(Process::Pid()); }
 
-long int Process::UpTime() { return LinuxParser::UpTime(Process::Pid()); }
+long int Process::UpTime() { return LinuxParser::UpTime() -  LinuxParser::UpTime(Process::Pid()); }
 
 bool Process::operator<(Process const &a) const
 {
