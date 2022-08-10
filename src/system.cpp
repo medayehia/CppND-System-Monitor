@@ -24,7 +24,7 @@ vector<Process>& System::Processes() {
     Process pro(p);
     sysProc.push_back(pro);
   }
-  std::sort(sysProc.begin(), sysProc.end());
+   std::sort(sysProc.begin(), sysProc.end());
 
   processes_ = sysProc;
   return processes_;

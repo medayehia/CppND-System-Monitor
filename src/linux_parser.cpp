@@ -83,7 +83,7 @@ float LinuxParser::MemoryUtilization()
 {
   string key, value;
   string line;
-  float memTotal, memFree;
+  float memTotal = 0, memFree = 0;
   std::ifstream stream(kProcDirectory + kMeminfoFilename);
   if (stream.is_open())
   {
@@ -217,7 +217,6 @@ string LinuxParser::Ram(int pid)
       if (key == "VmSize:")
       {
         ram = std::stoi(value);
-        // return to_string(ram/1024);
       }
     }
   }
@@ -273,7 +272,7 @@ long LinuxParser::UpTime(int pid)
 {
   string pid_name = to_string(pid);
   string line;
-  int t = 0;
+  long t = 0;
   std::ifstream stream(kProcDirectory + pid_name + kStatFilename);
   if (stream.is_open())
   {
@@ -284,8 +283,9 @@ long LinuxParser::UpTime(int pid)
     std::istream_iterator<string> end;
     vector<string> lineData(begin, end);
     t = std::stoi(lineData[21]);
-    return t / sysconf(_SC_CLK_TCK);
+    t = t / sysconf(_SC_CLK_TCK);
   }
+  return t;
 }
 
 vector<std::string> LinuxParser::CpuUtilization(int pid)
@@ -303,5 +303,5 @@ vector<std::string> LinuxParser::CpuUtilization(int pid)
     vector<string> cpuStates(begin, end);
     return cpuStates;
   }
-  return {0};
+  return {"none"};
 }
